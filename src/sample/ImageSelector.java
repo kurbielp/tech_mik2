@@ -56,13 +56,13 @@ public final class ImageSelector extends Application {
         //final Button openMultipleButton = new Button("Open Pictures...");
 
         ImageView originalImageView = new ImageView();
-        originalImageView.setFitWidth(500);
-        originalImageView.setFitHeight(500);
+        originalImageView.setFitWidth(512);
+        originalImageView.setFitHeight(512);
         originalImageView.setPreserveRatio(true);
 
         ImageView changedImageView = new ImageView();
-        changedImageView.setFitWidth(500);
-        changedImageView.setFitHeight(500);
+        changedImageView.setFitWidth(512);
+        changedImageView.setFitHeight(512);
         changedImageView.setPreserveRatio(true);
 
         final Image[] originalImage = {new Image("file:C:\\Users\\dell\\IdeaProjects\\tech_mik2\\src\\sample\\flower.JPG")};
@@ -133,19 +133,21 @@ public final class ImageSelector extends Application {
 */
         final int[] currentNumber = {0};
         //final ChoiceBox<String> maskBox = new ChoiceBox<String>();
-        final ChoiceBox<String> box = new ChoiceBox<String>();
-
+        final ChoiceBox<String> box = new ChoiceBox<String>(FXCollections.observableArrayList(
+                "Gauss1", "Gauss2", "Gauss3", "Usredniajacy1", "Kwadratowy","Kołowy","Laplace'a1","Laplace'a2","Laplace'a3"));
+/*
         box.getItems().add("1");
         box.getItems().add("2");
         box.getItems().add("3");
         box.getItems().add("4");
         box.getItems().add("5");
+        */
         //maskBox.getItems().add("Gauss");
        // maskBox.getItems().add("Laplace");
         //maskBox.getItems().add("3");
 
 
-        final int currentNumberInt[] = {3,5,7,9,11};
+        //final int currentNumberInt[] = {3,5,7,9,11};
 
         final Image changedImage[] = {new Image("file:C:\\Users\\dell\\IdeaProjects\\tech_mik2\\src\\sample\\flower.JPG")};
 /*
@@ -160,11 +162,13 @@ public final class ImageSelector extends Application {
             @Override
             public void changed(ObservableValue<? extends Number> observableValue, Number number, Number number2) {
                // if (number2.equals("Gauss")) {
-                    currentNumber[0] = currentNumberInt[number2.intValue()];
+                    currentNumber[0] = number2.intValue();
+                    System.out.println(currentNumber[0]);
                     switch (currentNumber[0]) {
-                        case 3:
+                        case 0:
                             filterWidth[0] = 3;
-                            filter[0] = new int[]{1, 2, 1,
+                            filter[0] = new int[]
+                                    {1, 2, 1,
                                     2, 4, 2,
                                     1, 2, 1};
 
@@ -176,10 +180,11 @@ public final class ImageSelector extends Application {
                             changedImageView.setImage(changedImage[0]);
 
                             break;
-                        case 5:
+                        case 1:
 
                             filterWidth[0] = 5;
-                            filter[0] = new int[]{0, 2, 4, 2, 0,
+                            filter[0] = new int[]
+                                    {0, 2, 4, 2, 0,
                                     1, 4, 8, 4, 1,
                                     2, 8, 16, 8, 2,
                                     1, 4, 8, 4, 1,
@@ -193,7 +198,7 @@ public final class ImageSelector extends Application {
                             changedImageView.setImage(changedImage[0]);
 
                             break;
-                        case 7:
+                        case 2:
                             filterWidth[0] = 7;
                             filter[0] = new int[]{
                                     1, 1, 2, 2, 2, 1, 1,
@@ -217,7 +222,7 @@ public final class ImageSelector extends Application {
                    // if (number2.equals("Laplace")) {
                         //currentNumber[0] = currentNumberInt[number2.intValue()];
                         //switch (currentNumber[0]) {
-                        case 9:
+                        case 3:
                             filterWidth[0] = 3;
                             filter[0] = new int[]{
                                     1,  1,	1,
@@ -232,12 +237,80 @@ public final class ImageSelector extends Application {
                             changedImageView.setImage(changedImage[0]);
 
                             break;
-                        case 11:
+                        case 4:
+                            filterWidth[0] = 5;
+                            filter[0] = new int[]{
+                                    1,	1,	1,	1,	1,
+                                    1,	1,	1,	1,	1,
+                                    1,	1,	1,	1,	1,
+                                    1,	1,	1,	1,	1,
+                                    1,	1,	1,	1,	1,};
+
+                            tempBuffImg = null;
+                            tempBuffImg = javafx.embed.swing.SwingFXUtils.fromFXImage(originalImage[0], tempBuffImg);
+
+                            bufferedChangedImage[0] = rgBtoBit.blur(tempBuffImg, filter[0], filterWidth[0]);
+                            changedImage[0] = javafx.embed.swing.SwingFXUtils.toFXImage(bufferedChangedImage[0], null);
+                            changedImageView.setImage(changedImage[0]);
+
+                            break;
+                        case 5:
+                            filterWidth[0] = 5;
+                            filter[0] = new int[]{
+
+                                    0,	1,	1,	1,	0,
+                                    1,	1,	1,	1,	1,
+                                    1,	1,	1,	1,	1,
+                                    1,	1,	1,	1,	1,
+                                    0,	1,	1,	1,	0};
+
+                            tempBuffImg = null;
+                            tempBuffImg = javafx.embed.swing.SwingFXUtils.fromFXImage(originalImage[0], tempBuffImg);
+
+                            bufferedChangedImage[0] = rgBtoBit.blur(tempBuffImg, filter[0], filterWidth[0]);
+                            changedImage[0] = javafx.embed.swing.SwingFXUtils.toFXImage(bufferedChangedImage[0], null);
+                            changedImageView.setImage(changedImage[0]);
+
+                            break;
+                        case 6:
                             filterWidth[0] = 3;
                             filter[0] = new int[]{
                                     0,  -1,	0,
                                     -1,	4,  -1,
                                     0,	-1,	0};
+
+                            tempBuffImg = null;
+                            tempBuffImg = javafx.embed.swing.SwingFXUtils.fromFXImage(originalImage[0], tempBuffImg);
+
+                            bufferedChangedImage[0] = rgBtoBit.blur(tempBuffImg, filter[0], filterWidth[0]);
+                            changedImage[0] = javafx.embed.swing.SwingFXUtils.toFXImage(bufferedChangedImage[0], null);
+                            changedImageView.setImage(changedImage[0]);
+
+                            break;
+                        case 7:
+                            filterWidth[0] = 3;
+                            filter[0] = new int[]{
+
+                                    -1,	-1,	-1,
+                                    -1,  8,	-1,
+                                    -1,	-1,	-1
+                            };
+
+                            tempBuffImg = null;
+                            tempBuffImg = javafx.embed.swing.SwingFXUtils.fromFXImage(originalImage[0], tempBuffImg);
+
+                            bufferedChangedImage[0] = rgBtoBit.blur(tempBuffImg, filter[0], filterWidth[0]);
+                            changedImage[0] = javafx.embed.swing.SwingFXUtils.toFXImage(bufferedChangedImage[0], null);
+                            changedImageView.setImage(changedImage[0]);
+
+                            break;
+                        case 8:
+                            filterWidth[0] = 3;
+                            filter[0] = new int[]{
+
+                                    1,	-2,	1,
+                                    -2,	4,	-2,
+                                    1,	-2	,1};
 
                             tempBuffImg = null;
                             tempBuffImg = javafx.embed.swing.SwingFXUtils.fromFXImage(originalImage[0], tempBuffImg);
@@ -456,6 +529,6 @@ public final class ImageSelector extends Application {
             );
         }
     }
-    
+
 
 }
